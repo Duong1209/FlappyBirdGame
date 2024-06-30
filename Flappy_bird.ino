@@ -2,7 +2,6 @@
 #include <Preferences.h>
 
 #include "asset.h"
-#include "pitch.h"
 
 #define BUTTON_PIN_1      23
 #define BUTTON_PIN_2      27
