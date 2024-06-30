@@ -102,9 +102,6 @@ void setup() {
     }
 
     display.flipScreenVertically();
-
-    Serial.begin(115200);
-    Serial.println("ESP32 đo khoảng cách");
 }
 
 void loop() {
