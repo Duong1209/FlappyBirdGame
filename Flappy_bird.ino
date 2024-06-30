@@ -32,9 +32,7 @@ unsigned int FlappyHighScore;
 unsigned int FlappyGameState = 0;
 
 bool isFlyingUp = false;
-bool isBuzzerOn = false;
 bool FlappyHasScored[4];
-bool isMusicOn = false;
 bool isUsingButton = false;
 
 float birdX = 20.0;
@@ -60,9 +58,6 @@ float dinoSpeed = 0.01;
 
 unsigned long keyPressTime = 0;
 int game = 0;
-
-int melody[] = {NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4};
-int noteDurations[] = {4, 8, 8, 4, 4, 4, 4, 4};
 
 int prevDistance = 0;
 int distance = 0;
@@ -230,7 +225,6 @@ void playFlappyBird() {
         if (digitalRead(BUTTON_PIN_1) == LOW) {
             keyPressTime = millis();
             isFlyingUp = true;
-            isBuzzerOn = true;
         }
     }
 
@@ -258,7 +252,6 @@ void playFlappyBird() {
     if ((keyPressTime + 80) < millis()) isFlyingUp = false;
     if ((keyPressTime + 10) < millis()) isBuzzerOn = false;
     birdY += isFlyingUp ? -0.025 : 0.015;
-    digitalWrite(BUZZER_PIN, isBuzzerOn ? HIGH : LOW);
     if (birdY > 63 || birdY < 0 || checkFlappyCollision()) {
         endFlappyGame();
     }
@@ -305,7 +298,6 @@ void displayFlappyEndScreen() {
 }
 
 void resetFlappyHighScore() {
-    isBuzzerOn = true;
     FlappyHighScore = 0;
     preferences.begin("Flappy", false);
     preferences.putUInt("highScore", FlappyHighScore);
@@ -343,7 +335,6 @@ void playDinoRun() {
         jumpSpeed = 0.1;
         isJumping = true;
         canPush = false;
-        isBuzzerOn = true;
     }
 
     display.drawXbm(dinoX, dinoY, Dino_width, Dino_height, Dino);
@@ -381,7 +372,6 @@ void playDinoRun() {
         canPush = true;
       }
     }
-    digitalWrite(BUZZER_PIN, isBuzzerOn ? HIGH : LOW);
     if (checkDinoCollision()) {
         endDinoGame();
     }
@@ -407,7 +397,6 @@ void endDinoGame() {
       preferences.putUInt("highScore", DinoHighScore);
       preferences.end();
     }
-    isMusicOn = false;
     DinoGameState = 2;
     delay(50);
 }
@@ -425,7 +414,6 @@ void displayDinoEndScreen() {
 }
 
 void resetDinoHighScore() {
-    isBuzzerOn = true;
     DinoHighScore = 0;
     preferences.begin("Dino", false);
     preferences.putUInt("highScore", DinoHighScore);
